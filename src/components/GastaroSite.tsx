@@ -256,29 +256,47 @@ function ContactView({ goHome }: { goHome: () => void }) {
             </div>
           </div>
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert("Danke! Wir melden uns in Kürze.");
-            }}
-            className="rounded-2xl border border-white/10 bg-white/5 p-6"
-          >
-            <div className="grid grid-cols-1 gap-4">
-              <Field icon={<User className="h-4 w-4" />} placeholder="Ihr Name" />
-              <Field icon={<Mail className="h-4 w-4" />} type="email" placeholder="E-Mail" />
-              <Field icon={<Phone className="h-4 w-4" />} placeholder="Telefon (optional)" />
-              <textarea
-                placeholder="Worum geht es?"
-                className="w-full rounded-xl bg-black/40 border border-white/15 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 min-h-[120px]"
-              />
-              <button className="rounded-xl bg-white text-black px-5 py-3 font-semibold hover:bg-white/90 transition">
-                Anfrage senden
-              </button>
-            </div>
-            <p className="text-xs text-white/50 mt-3">
-              Mit dem Senden stimmen Sie unserer Datenschutzerklärung zu.
-            </p>
-          </form>
+<form
+  onSubmit={async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget as HTMLFormElement);
+    const data = Object.fromEntries(fd.entries());
+
+    const res = await fetch("/.netlify/functions/sendMail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      alert("Danke! Wir melden uns in Kürze.");
+      (e.currentTarget as HTMLFormElement).reset();
+    } else {
+      const t = await res.text();
+      alert("Fehler beim Senden: " + t);
+    }
+  }}
+  className="rounded-2xl border border-white/10 bg-white/5 p-6"
+>
+  <div className="grid grid-cols-1 gap-4">
+    <Field name="name" icon={<User className="h-4 w-4" />} placeholder="Ihr Name" required />
+    <Field name="email" icon={<Mail className="h-4 w-4" />} type="email" placeholder="E-Mail" required />
+    <Field name="phone" icon={<Phone className="h-4 w-4" />} placeholder="Telefon (optional)" />
+    <textarea
+      name="message"
+      placeholder="Worum geht es?"
+      required
+      className="w-full rounded-xl bg-black/40 border border-white/15 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 min-h-[120px]"
+    />
+    <button className="rounded-xl bg-white text-black px-5 py-3 font-semibold hover:bg-white/90 transition">
+      Anfrage senden
+    </button>
+  </div>
+  <p className="text-xs text-white/50 mt-3">
+    Mit dem Senden stimmen Sie unserer Datenschutzerklärung zu.
+  </p>
+</form>
+
         </div>
       </section>
     </main>
@@ -368,7 +386,7 @@ function DatenschutzView() {
           Wir behalten uns vor, diese Erklärung bei Bedarf anzupassen.
         </p>
         <p className="text-white/60 text-xs">
-          Stand: {new Date().toLocaleDateString("de-DE")} – Erstellt für Hosting über Vercel, nach aktuellen DSGVO-Richtlinien.
+          Stand: {new Date().toLocaleDateString("de-DE")} – Erstellt für Hosting über Netlify, nach aktuellen DSGVO-Richtlinien.
         </p>
       </div>
     </main>
@@ -377,18 +395,14 @@ function DatenschutzView() {
 
 /* ---------- HILFSKOMPONENTEN ---------- */
 function Field({
-  icon,
-  placeholder,
-  type = "text",
-}: {
-  icon: React.ReactNode;
-  placeholder: string;
-  type?: string;
-}) {
+  name, icon, placeholder, type = "text", required = false
+}: { name: string; icon: React.ReactNode; placeholder: string; type?: string; required?: boolean }) {
   return (
     <div className="flex items-center gap-3 rounded-xl bg-black/40 border border-white/15 px-4 py-3">
       <span className="shrink-0 text-white/60">{icon}</span>
       <input
+        name={name}
+        required={required}
         type={type}
         placeholder={placeholder}
         className="w-full bg-transparent outline-none placeholder:text-white/40"
