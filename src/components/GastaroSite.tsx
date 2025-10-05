@@ -331,11 +331,15 @@ function DatenschutzView() {
     <main className="pt-28 pb-20 mx-auto max-w-4xl px-4">
       <h1 className="text-3xl md:text-5xl font-semibold tracking-tight mb-6">Datenschutzerklärung</h1>
       <div className="prose prose-invert prose-sm sm:prose-base max-w-none text-white/80">
-        <p><strong>1. Verantwortlicher</strong><br />
-          Gastaro – Sebastian Eisenburg<br />
-          Feilitzstraße 34, 80802 München, Deutschland<br />
-          E-Mail: contact@gastaro.com | Telefon: +49 ••• ••••••• / +49 ••• •••••••
-        </p>
+        <p>
+  <strong>1. Verantwortlicher</strong><br />
+  Gastaro<br />
+  Sebastian Eisenburg<br />
+  Aaron Schwabe<br />
+  Feilitzstraße 34, 80802 München, Deutschland<br />
+  E-Mail: contact@gastaro.com &nbsp;&nbsp; Telefon: +49 ••• •••••• / +49 ••• ••••••
+</p>
+
         <p><strong>2. Hosting</strong><br />
           Unsere Website wird bei <strong>Vercel Inc.</strong>, 440 N Barranca Ave #4133, Covina, CA 91723, USA gehostet.  
           Der Anbieter erhält technische Zugriffsdaten (IP-Adresse, Browsertyp, Uhrzeit) zur Sicherung des Betriebs. 
