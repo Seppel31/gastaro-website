@@ -604,9 +604,11 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
     <main className="pt-24 pb-32 mx-auto max-w-5xl px-4">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h2 className="text-4xl md:text-6xl font-semibold tracking-tight">Unsere Herangehensweise</h2>
+          <h2 className="text-4xl md:text-6xl font-semibold tracking-tight">
+            Unsere Herangehensweise
+          </h2>
           <p className="text-white/70 mt-3 max-w-3xl">
-            Konsequent auf die oben skizzierten Herausforderungen ausgerichtet – messbar, schnell, skalierbar.
+            Konsequent auf die zuvor skizzierten Herausforderungen ausgerichtet – praxisnah, messbar, und klar auf nachhaltige Sichtbarkeit und Gästebindung optimiert.
           </p>
         </div>
         <button
@@ -618,54 +620,110 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
       </div>
 
       <section className="mt-20 space-y-12 text-white/80 leading-relaxed">
+        {/* Punkt 1 */}
         <div id="websites">
-          <h3 className="text-2xl md:text-3xl font-semibold mb-3">1) Website, die konvertiert</h3>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">
+            1) Sichtbarkeit durch Webdesign mit Substanz
+          </h3>
           <p>
-            Maßgeschneiderte, schnelle Websites (Go-Live in 14 Tagen), optimiert für Mobilgeräte, lokale Suchintention
-            und Reservierungen. Struktur & Content so aufgebaut, dass LLMs/AI-Antwortboxen klaren Kontext finden
-            (E-E-A-T-Signale, FAQ-Blöcke, strukturierte Daten, lokale Relevanz).
+            Wir bauen keine Webseiten, die „schön aussehen“ – wir entwickeln digitale Auftritte, die <strong>konvertieren</strong>.
+            Jede Seite ist darauf ausgelegt, in einer KI-dominierten Suchwelt zu bestehen:
+            klare Struktur, starke Inhalte, lokale Relevanz und eine Story, die bleibt.
+          </p>
+          <p className="mt-3">
+            Unser Ziel: Wenn jemand nach <em>„bestes Café in der Nähe“</em> oder <em>„Brunch München Schwabing“</em> sucht, 
+            taucht dein Betrieb in der Antwort auf – nicht in der zweiten Reihe, sondern ganz oben.
+          </p>
+          <p className="mt-3">
+            Wir kombinieren moderne Performance, optimierte Ladezeiten und strukturierte Inhalte (E-E-A-T, FAQ, Local Schema), 
+            damit Google, KI und Menschen gleichermaßen verstehen, warum dein Betrieb relevant ist.
           </p>
         </div>
 
+        {/* Punkt 2 */}
         <div id="marketing">
-          <h3 className="text-2xl md:text-3xl font-semibold mb-3">2) Performance Marketing & Local SEO</h3>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">
+            2) Local SEO & Performance Marketing mit Feingefühl
+          </h3>
           <p>
-            Kombi aus Google Ads (Intent), Social Ads (Demand), lokaler SEO (Maps/Reviews) und Geo-Content. 
-            Wir besetzen Suchbegriffe wie „beste {`<Küche>`} in der Nähe“, bauen Landingpages pro Stadtteil
-            und sichern Bewertungen/Antwortmanagement.
+            Trends ändern sich – aber das Verhalten der Gäste bleibt konstant: Sie suchen, vergleichen und entscheiden in Sekunden.
+            Wir platzieren deinen Betrieb dort, wo diese Entscheidungen fallen.
+          </p>
+          <p className="mt-3">
+            Mit gezielten Google Ads, Social Ads und einer datenbasierten Local-SEO-Strategie schaffen wir es, 
+            dass deine Marke sowohl algorithmisch als auch emotional präsent ist.  
+            Von Google Maps über TikTok bis hin zu Instagram Reels – jede Plattform hat ihren eigenen Hebel, und wir bedienen alle.
+          </p>
+          <p className="mt-3">
+            Unser Fokus: echte Besucher, echte Reichweite, messbare Ergebnisse – keine gekauften Klicks.
           </p>
         </div>
 
+        {/* Punkt 3 */}
         <div id="socialmedia">
-          <h3 className="text-2xl md:text-3xl font-semibold mb-3">3) Content Engine statt Content-Spam</h3>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">
+            3) Content, der hängen bleibt – keine Flut aus leeren Posts
+          </h3>
           <p>
-            Redaktionelle Planung + Kurzform-Clips. Wir erzählen die echte Geschichte des Betriebs – konsistent 
-            über Instagram, TikTok & Reels – mit Tonalität, die Marke aufbaut statt nur „zu posten“. 
-            LLM-freundliche Blogartikel & lokale Guides, damit AI-Systeme euch als Referenz heranziehen.
+            In einer Welt, in der täglich Millionen Inhalte veröffentlicht werden, braucht es Strategie statt Quantität.
+            Wir schaffen Content, der Emotionen weckt, Geschichten erzählt und Wiedererkennung schafft.
+          </p>
+          <p className="mt-3">
+            Unsere Content Engine sorgt dafür, dass dein Betrieb kontinuierlich präsent bleibt –
+            mit authentischen Bildern, Reels und Beiträgen, die deine Werte transportieren.
+            Kein generischer „Social Feed“, sondern eine erlebbare Marke mit Haltung.
+          </p>
+          <p className="mt-3">
+            So entsteht nicht nur Reichweite, sondern echte digitale Identität – ein Auftritt, der Vertrauen schafft
+            und über Algorithmen hinaus funktioniert.
           </p>
         </div>
 
+        {/* Punkt 4 */}
         <div id="fotos">
-          <h3 className="text-2xl md:text-3xl font-semibold mb-3">4) Bildsprache & Brand</h3>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">
+            4) Bildsprache & Branding, das Emotionen verkauft
+          </h3>
           <p>
-            Eigene, wiedererkennbare Ästhetik: professionelle Fotos/Videos, die Atmosphäre & Signature-Gerichte erzählen.
-            Einheitliche Visuals über alle Plattformen, damit ihr nicht austauschbar wirkt.
+            Wir setzen auf visuelle Identität statt Austauschbarkeit.
+            Mit professioneller Foto- und Videoproduktion erschaffen wir einen Stil, der Gäste fesselt und deine Marke unterscheidet.
+          </p>
+          <p className="mt-3">
+            Jede Aufnahme erzählt eine Geschichte – vom Espresso bis zur Atmosphäre.
+            Einheitliche Visuals über alle Plattformen hinweg sorgen für Wiedererkennung und Markenbindung.
+          </p>
+          <p className="mt-3">
+            Das Ziel: Bilder, die nicht nur gesehen, sondern <strong>gefühlt</strong> werden.
           </p>
         </div>
 
+        {/* Punkt 5 */}
         <div>
-          <h3 className="text-2xl md:text-3xl font-semibold mb-3">5) Lokal + Digital</h3>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">
+            5) Lokal & Digital verzahnt – ganzheitliche Präsenz
+          </h3>
           <p>
-            Digitale Kampagnen ergänzt durch lokale Touchpoints: Plakate/City-Light-Anleihen, Flyer, Eröffnungsaktionen.
-            Online → Offline sauber verknüpft (QR, Offer-Codes, Tracking).
+            Sichtbarkeit endet nicht online. Wir verknüpfen digitale Maßnahmen mit lokalem Marketing:
+            Eröffnungsaktionen, Flyer, QR-Kampagnen oder City-Light-Plakate, die perfekt auf deine Online-Strategie abgestimmt sind.
+          </p>
+          <p className="mt-3">
+            So entsteht ein durchgängiger Markenerlebnis-Loop:  
+            Menschen entdecken dich online, erleben dich offline – und teilen es wieder online.
           </p>
         </div>
 
+        {/* Punkt 6 */}
         <div>
-          <h3 className="text-2xl md:text-3xl font-semibold mb-3">6) Betrieb: Speed, Verlässlichkeit, Transparenz</h3>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">
+            6) Transparente Zusammenarbeit & echte Ergebnisse
+          </h3>
           <p>
-            24/7 erreichbar, klarer Ansprechpartner, schnelle Iterationen, NDA auf Wunsch. Monatlicher Report mit
-            Zahlen statt Floskeln. Ziel: wiederkehrende Gäste, planbare Auslastung, Top-Bewertungen.
+            Wir sind 24/7 erreichbar, kommunizieren ehrlich und liefern Ergebnisse, keine Ausreden.
+            Du bekommst monatliche Reports, klare KPIs und greifbare Fortschritte.
+          </p>
+          <p className="mt-3">
+            Wir arbeiten diskret, effizient und partnerschaftlich – mit Fokus auf Wachstum, Vertrauen und Beständigkeit.
+            Unser Ziel ist nicht die einmalige Kampagne, sondern deine dauerhafte digitale Stärke.
           </p>
         </div>
       </section>
@@ -675,12 +733,13 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
           onClick={goContact}
           className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 hover:bg-white hover:text-black transition"
         >
-          Loslegen <ArrowRight className="h-4 w-4" />
+          Jetzt unverbindlich anfragen <ArrowRight className="h-4 w-4" />
         </button>
       </div>
     </main>
   );
 }
+
 
 /* ---------- HILFSKOMPONENTEN ---------- */
 function Field({
