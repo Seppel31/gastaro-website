@@ -16,7 +16,7 @@ import ServiceDetails from "./ServiceDetails";
 
 export default function GastaroSite() {
   const [view, setView] = useState<
-    "home" | "contact" | "impressum" | "datenschutz"
+    "home" | "contact" | "impressum" | "datenschutz" | "problematik" | "herangehensweise"
   >("home");
 
   return (
@@ -34,19 +34,27 @@ export default function GastaroSite() {
           <nav className="hidden sm:flex items-center gap-6 text-sm">
             <button
               onClick={() => setView("home")}
-              className={`hover:opacity-80 ${
-                view === "home" ? "opacity-100" : "opacity-70"
-              }`}
+              className={`hover:opacity-80 ${view === "home" ? "opacity-100" : "opacity-70"}`}
             >
               About
             </button>
             <button
               onClick={() => setView("contact")}
-              className={`hover:opacity-80 ${
-                view === "contact" ? "opacity-100" : "opacity-70"
-              }`}
+              className={`hover:opacity-80 ${view === "contact" ? "opacity-100" : "opacity-70"}`}
             >
               Kontakt
+            </button>
+            <button
+              onClick={() => setView("problematik")}
+              className={`hover:opacity-80 ${view === "problematik" ? "opacity-100" : "opacity-70"}`}
+            >
+              Problematik
+            </button>
+            <button
+              onClick={() => setView("herangehensweise")}
+              className={`hover:opacity-80 ${view === "herangehensweise" ? "opacity-100" : "opacity-70"}`}
+            >
+              Herangehensweise
             </button>
           </nav>
           <button
@@ -60,6 +68,13 @@ export default function GastaroSite() {
 
       {view === "home" && <HomeView goContact={() => setView("contact")} />}
       {view === "contact" && <ContactView goHome={() => setView("home")} />}
+      {view === "problematik" && (
+        <ProblematikView
+          goHome={() => setView("home")}
+          goNext={() => setView("herangehensweise")}
+        />
+      )}
+      {view === "herangehensweise" && <HerangehensweiseView goContact={() => setView("contact")} />}
       {view === "impressum" && <ImpressumView />}
       {view === "datenschutz" && <DatenschutzView />}
 
@@ -197,6 +212,7 @@ function HomeView({ goContact }: { goContact: () => void }) {
     </main>
   );
 }
+
 /* ---------- CONTACT VIEW ---------- */
 function ContactView({ goHome }: { goHome: () => void }) {
   return (
@@ -424,28 +440,27 @@ function DatenschutzView() {
           ••• ••••••
         </p>
 
-<p>
-  <strong>2. Hosting</strong>
-  <br />
-  Unsere Website wird bei <strong>Netlify, Inc.</strong>, 2325 3rd Street, Suite 296, San Francisco,
-  CA 94107, USA, gehostet. Der Anbieter erhält technische Zugriffsdaten (z.&nbsp;B. IP-Adresse,
-  Browsertyp, Betriebssystem, Zugriffszeitpunkt), die zum sicheren und stabilen Betrieb der Website
-  erforderlich sind. Die Datenverarbeitung erfolgt auf Grundlage von
-  <strong>Art. 6 Abs. 1 lit. f DSGVO</strong> (berechtigtes Interesse an der technischen Bereitstellung
-  und Sicherheit der Website). Die Übermittlung in die USA erfolgt auf Basis der
-  <strong>EU-Standardvertragsklauseln (SCCs)</strong>, die ein angemessenes Datenschutzniveau
-  gewährleisten. Weitere Informationen finden Sie in der Datenschutzerklärung von Netlify unter:&nbsp;
-  <a
-    href="https://www.netlify.com/privacy/"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-blue-400 underline"
-  >
-    https://www.netlify.com/privacy/
-  </a>.
-</p>
+        <p>
+          <strong>2. Hosting</strong>
+          <br />
+          Unsere Website wird bei <strong>Netlify, Inc.</strong>, 2325 3rd Street, Suite 296, San Francisco,
+          CA 94107, USA, gehostet. Der Anbieter erhält technische Zugriffsdaten (z.&nbsp;B. IP-Adresse,
+          Browsertyp, Betriebssystem, Zugriffszeitpunkt), die zum sicheren und stabilen Betrieb der Website
+          erforderlich sind. Die Datenverarbeitung erfolgt auf Grundlage von
+          <strong> Art. 6 Abs. 1 lit. f DSGVO</strong> (berechtigtes Interesse an der technischen Bereitstellung
+          und Sicherheit der Website). Die Übermittlung in die USA erfolgt auf Basis der
+          <strong> EU-Standardvertragsklauseln (SCCs)</strong>, die ein angemessenes Datenschutzniveau
+          gewährleisten. Weitere Informationen:{" "}
+          <a
+            href="https://www.netlify.com/privacy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 underline"
+          >
+            https://www.netlify.com/privacy/
+          </a>.
+        </p>
 
-    
         <p>
           <strong>3. Zwecke und Rechtsgrundlagen</strong>
           <br />
@@ -493,6 +508,175 @@ function DatenschutzView() {
           Stand: {new Date().toLocaleDateString("de-DE")} – Erstellt für Hosting
           über Netlify, nach aktuellen DSGVO-Richtlinien.
         </p>
+      </div>
+    </main>
+  );
+}
+
+/* ---------- PROBLEMATIK ---------- */
+function ProblematikView({ goHome, goNext }: { goHome: () => void; goNext: () => void }) {
+  return (
+    <main className="pt-24 pb-32 mx-auto max-w-5xl px-4">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h2 className="text-4xl md:text-6xl font-semibold tracking-tight">Die Problematik</h2>
+          <p className="text-white/70 mt-3 max-w-3xl">
+            Warum es heute entscheidender denn je ist, eine starke Marketingstrategie
+            und eine Agentur zu haben, die wirklich versteht, wie moderne Sichtbarkeit funktioniert.
+          </p>
+        </div>
+        <button
+          onClick={goHome}
+          className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition"
+        >
+          Zurück
+        </button>
+      </div>
+
+      <section className="mt-20 space-y-10 text-white/80 leading-relaxed">
+        {/* Dein Text – ungekürzt */}
+        <div>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-4">Die Aktuellen Herausforderungen</h3>
+          <p>Wir befinden uns im Moment in einer exponentiell wachsenden Industrie.</p>
+          <p>Wo das sofortige Anwenden von Trends und das richtige Angehen der Strategie über Erfolg oder Misserfolg entscheiden können.</p>
+          <p>Die Gastronomie ist mehr als nur gutes Essen – sie ist Emotion, Erlebnis und Marke. In einer Welt, in der Gäste ihre Entscheidung oft schon online treffen, ist eine durchdachte Marketingstrategie der Schlüssel, um nicht nur gesehen, sondern erlebt zu werden.</p>
+          <p>Wir unterstützen Gastronomiebetriebe dabei, ihre einzigartige Geschichte zu erzählen, ihre Reichweite zu vergrößern und nachhaltig Gäste zu gewinnen. Von Social-Media-Marketing und Content-Strategie bis hin zu Branding und Performance-Kampagnen – wir wissen, was funktioniert, weil wir die Sprache der Gastronomie sprechen.</p>
+          <p>Denn Erfolg ist kein Zufall, sondern das Ergebnis einer klaren Strategie, konsequenter Umsetzung und echter Leidenschaft für das, was man tut.</p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-4">1. Die Revolution der Online-Suche</h3>
+          <p>Suchmaschinen, wie wir sie heute kennen, befinden sich in einem radikalen Wandel.</p>
+          <p>Statt klassischer Ergebnislisten liefern sie zunehmend KI-generierte Antworten, die auf großen Sprachmodellen (LLMs) basieren. Diese Systeme durchsuchen nicht mehr nur Webseiten nach Keywords, sondern analysieren und verstehen Inhalte, um daraus präzise, zusammengefasste Antworten zu formulieren – angepasst an die individuellen Interessen und Gewohnheiten der Nutzer.</p>
+          <p>Damit verändert sich die Art, wie Sichtbarkeit entsteht:</p>
+          <p>Es reicht nicht mehr, einfach gut zu ranken. Entscheidend ist nun, relevante und hochwertige Inhalte zu veröffentlichen, die von diesen Systemen als wertvoll und vertrauenswürdig erkannt werden. Besonders Artikel, Blogbeiträge und lokale Inhalte spielen hier eine zentrale Rolle – denn sie liefern den Kontext, den LLMs nutzen, um ihre Antworten zu bilden.</p>
+          <p>Hinzu kommt der Faktor Geo: Suchanfragen werden immer stärker standortbasiert ausgewertet. Wenn jemand nach „bestes italienisches Restaurant in der Nähe“ sucht, entscheidet nicht nur das Ranking, sondern auch die lokale Relevanz und digitale Präsenz des Betriebs, ob er in der Antwort auftaucht.</p>
+          <p>Kurz gesagt: Wer heute online sichtbar sein will, muss verstehen, wie KI denkt, Inhalte gewichtet und Orte bewertet – und seine Marketingstrategie gezielt darauf ausrichten.</p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-4">2. Die Überproduktion von Inhalten</h3>
+          <p>Noch nie war es so einfach, Inhalte zu veröffentlichen – und noch nie war es so schwer, wahrgenommen zu werden.</p>
+          <p>Die digitale Welt ist überflutet mit Posts, Reels, Werbeanzeigen und automatisierten Texten. Diese Überproduktion von Content führt dazu, dass selbst gute Botschaften oft im Strom der Informationsflut untergehen.</p>
+          <p>Für Gastronomiebetriebe bedeutet das: Wer online sichtbar bleiben will, muss mehr bieten als der Standart. Schöne Bilder oder Standard-Posts. Es braucht echte Kreativität, klare Strategie und ein tiefes Verständnis dafür, wie man Emotionen weckt und Geschichten erzählt, die im Gedächtnis bleiben.</p>
+          <p>Nur wer es schafft, seine Marke mit einem einzigartigen Auftritt und konsistentem Stil zu positionieren, wird aus der Masse herausstechen – und die Aufmerksamkeit der Gäste langfristig gewinnen.</p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-4">3. Der USP als entscheidender Erfolgsfaktor</h3>
+          <p>In einer Zeit, in der täglich unzählige Inhalte veröffentlicht werden, wird der Unique Selling Point (USP) zum zentralen Schlüssel für Sichtbarkeit und Wiedererkennung.</p>
+          <p>Der stetige „Content-Spam“ in sozialen Medien und Suchmaschinen führt dazu, dass viele Marken austauschbar wirken – besonders in der Gastronomie, wo ähnliche Bilder, Menüs und Botschaften dominieren.</p>
+          <p>Gerade deshalb ist es wichtiger denn je, den eigenen Charakter klar zu kommunizieren:</p>
+          <p>Was macht dein Restaurant, Café oder deine Bar wirklich einzigartig?</p>
+          <p>Ist es das Konzept, die Atmosphäre, die Geschichte – oder vielleicht die Werte, die du verkörperst?</p>
+          <p>Ein klar definierter und konsequent gelebter USP sorgt dafür, dass Gäste nicht nur zufällig auf dich stoßen, sondern gezielt zu dir kommen.</p>
+          <p>Er schafft Wiedererkennung, Gemeinschaft, Vertrauen und Loyalität – und macht aus Gästen echte Fans.</p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-4">4. Sichtbarkeit auf allen Plattformen</h3>
+          <p>Die digitale Präsenz entscheidet heute über den Erfolg einer Marke.</p>
+          <p>Gäste informieren sich nicht mehr nur über eine Plattform – sie entdecken Restaurants auf Instagram, lesen Bewertungen auf Google, schauen Videos auf TikTok und suchen Öffnungszeiten auf Maps.</p>
+          <p>Wer wirklich herausstechen will, muss überall dort präsent sein, wo seine Zielgruppe sich bewegt.</p>
+          <p>Das bedeutet: eine konsistente Markenbotschaft, abgestimmt auf jede Plattform, aber mit klar wiedererkennbarem Stil und Mehrwert.</p>
+          <p>In einer Zeit, in der Inhalte in Sekundenschnelle konsumiert und ebenso schnell vergessen werden, reicht einmalige Sichtbarkeit nicht aus.</p>
+          <p>Durch den stetigen Fluss kurzer Videos und schneller Trends muss man mehrfach und regelmäßig wahrgenommen werden, um wirklich im Kopf zu bleiben.</p>
+          <p>Nur durch diese kontinuierliche und plattformübergreifende Präsenz entsteht Vertrauen, Reichweite und eine starke Markenidentität.</p>
+          <p>Denn wer online nicht sichtbar ist – existiert für viele potenzielle Gäste schlichtweg nicht.</p>
+        </div>
+      </section>
+
+      <div className="mt-16 flex justify-center">
+        <button
+          onClick={goNext}
+          className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 hover:bg-white hover:text-black transition"
+        >
+          Weiter: Herangehensweise <ArrowRight className="h-4 w-4" />
+        </button>
+      </div>
+    </main>
+  );
+}
+
+/* ---------- HERANGEHENSWEISE ---------- */
+function HerangehensweiseView({ goContact }: { goContact: () => void }) {
+  return (
+    <main className="pt-24 pb-32 mx-auto max-w-5xl px-4">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h2 className="text-4xl md:text-6xl font-semibold tracking-tight">Unsere Herangehensweise</h2>
+          <p className="text-white/70 mt-3 max-w-3xl">
+            Konsequent auf die oben skizzierten Herausforderungen ausgerichtet – messbar, schnell, skalierbar.
+          </p>
+        </div>
+        <button
+          onClick={goContact}
+          className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition"
+        >
+          Kontakt aufnehmen
+        </button>
+      </div>
+
+      <section className="mt-20 space-y-12 text-white/80 leading-relaxed">
+        <div id="websites">
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">1) Website, die konvertiert</h3>
+          <p>
+            Maßgeschneiderte, schnelle Websites (Go-Live in 14 Tagen), optimiert für Mobilgeräte, lokale Suchintention
+            und Reservierungen. Struktur & Content so aufgebaut, dass LLMs/AI-Antwortboxen klaren Kontext finden
+            (E-E-A-T-Signale, FAQ-Blöcke, strukturierte Daten, lokale Relevanz).
+          </p>
+        </div>
+
+        <div id="marketing">
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">2) Performance Marketing & Local SEO</h3>
+          <p>
+            Kombi aus Google Ads (Intent), Social Ads (Demand), lokaler SEO (Maps/Reviews) und Geo-Content. 
+            Wir besetzen Suchbegriffe wie „beste {`<Küche>`} in der Nähe“, bauen Landingpages pro Stadtteil
+            und sichern Bewertungen/Antwortmanagement.
+          </p>
+        </div>
+
+        <div id="socialmedia">
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">3) Content Engine statt Content-Spam</h3>
+          <p>
+            Redaktionelle Planung + Kurzform-Clips. Wir erzählen die echte Geschichte des Betriebs – konsistent 
+            über Instagram, TikTok & Reels – mit Tonalität, die Marke aufbaut statt nur „zu posten“. 
+            LLM-freundliche Blogartikel & lokale Guides, damit AI-Systeme euch als Referenz heranziehen.
+          </p>
+        </div>
+
+        <div id="fotos">
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">4) Bildsprache & Brand</h3>
+          <p>
+            Eigene, wiedererkennbare Ästhetik: professionelle Fotos/Videos, die Atmosphäre & Signature-Gerichte erzählen.
+            Einheitliche Visuals über alle Plattformen, damit ihr nicht austauschbar wirkt.
+          </p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">5) Lokal + Digital</h3>
+          <p>
+            Digitale Kampagnen ergänzt durch lokale Touchpoints: Plakate/City-Light-Anleihen, Flyer, Eröffnungsaktionen.
+            Online → Offline sauber verknüpft (QR, Offer-Codes, Tracking).
+          </p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-3">6) Betrieb: Speed, Verlässlichkeit, Transparenz</h3>
+          <p>
+            24/7 erreichbar, klarer Ansprechpartner, schnelle Iterationen, NDA auf Wunsch. Monatlicher Report mit
+            Zahlen statt Floskeln. Ziel: wiederkehrende Gäste, planbare Auslastung, Top-Bewertungen.
+          </p>
+        </div>
+      </section>
+
+      <div className="mt-16 flex justify-center">
+        <button
+          onClick={goContact}
+          className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 hover:bg-white hover:text-black transition"
+        >
+          Loslegen <ArrowRight className="h-4 w-4" />
+        </button>
       </div>
     </main>
   );
