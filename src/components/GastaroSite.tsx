@@ -24,6 +24,7 @@ export default function GastaroSite() {
       {/* Top Navigation */}
       <header className="fixed top-0 inset-x-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-black/30 bg-black/30 border-b border-white/10">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+          {/* Logo */}
           <button
             onClick={() => setView("home")}
             className="group inline-flex items-center gap-2 text-lg font-medium hover:opacity-90"
@@ -31,18 +32,14 @@ export default function GastaroSite() {
             <Sparkles className="h-5 w-5" />
             <span className="tracking-wide">Gastaro</span>
           </button>
+
+          {/* Desktop Navigation */}
           <nav className="hidden sm:flex items-center gap-6 text-sm">
             <button
               onClick={() => setView("home")}
               className={`hover:opacity-80 ${view === "home" ? "opacity-100" : "opacity-70"}`}
             >
               About
-            </button>
-            <button
-              onClick={() => setView("contact")}
-              className={`hover:opacity-80 ${view === "contact" ? "opacity-100" : "opacity-70"}`}
-            >
-              Kontakt
             </button>
             <button
               onClick={() => setView("problematik")}
@@ -56,16 +53,30 @@ export default function GastaroSite() {
             >
               Herangehensweise
             </button>
+            <button
+              onClick={() => setView("contact")}
+              className={`hover:opacity-80 ${view === "contact" ? "opacity-100" : "opacity-70"}`}
+            >
+              Kontakt
+            </button>
           </nav>
+
+          {/* Desktop CTA */}
           <button
             onClick={() => setView("contact")}
-            className="rounded-2xl bg-white text-black px-4 py-1.5 text-sm font-semibold hover:bg-white/90 transition"
+            className="hidden sm:inline-flex rounded-2xl bg-white text-black px-4 py-1.5 text-sm font-semibold hover:bg-white/90 transition"
           >
             Anfrage
           </button>
+
+          {/* Mobile Menu Button */}
+          <div className="sm:hidden">
+            <MobileMenu setView={setView} view={view} />
+          </div>
         </div>
       </header>
 
+      {/* Page Views */}
       {view === "home" && <HomeView goContact={() => setView("contact")} />}
       {view === "contact" && <ContactView goHome={() => setView("home")} />}
       {view === "problematik" && (
@@ -101,6 +112,81 @@ export default function GastaroSite() {
     </div>
   );
 }
+
+/* ---------- MOBILE MENU ---------- */
+function MobileMenu({
+  setView,
+  view,
+}: {
+  setView: (v: any) => void;
+  view: string;
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="p-2 rounded-lg border border-white/20 bg-white/10 hover:bg-white/20 transition"
+      >
+        <motion.div
+          animate={{ rotate: open ? 90 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </motion.div>
+      </button>
+
+      {open && (
+        <motion.div
+          initial={{ opacity: 0, y: -5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+          className="absolute right-0 mt-3 w-48 rounded-2xl border border-white/10 bg-black/90 backdrop-blur-xl py-3 shadow-xl"
+        >
+          {[
+            { label: "About", view: "home" },
+            { label: "Problematik", view: "problematik" },
+            { label: "Herangehensweise", view: "herangehensweise" },
+            { label: "Kontakt", view: "contact" },
+          ].map((item, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                setView(item.view);
+                setOpen(false);
+              }}
+              className={`block w-full text-left px-5 py-2 text-sm hover:bg-white/10 ${
+                view === item.view ? "text-white" : "text-white/70"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+          <div className="border-t border-white/10 my-2"></div>
+          <button
+            onClick={() => {
+              setView("contact");
+              setOpen(false);
+            }}
+            className="w-[90%] mx-auto block rounded-xl bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-white/90 transition"
+          >
+            Anfrage
+          </button>
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
 
 /* ---------- HOME VIEW ---------- */
 function HomeView({ goContact }: { goContact: () => void }) {
