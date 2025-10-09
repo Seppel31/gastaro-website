@@ -321,8 +321,13 @@ function HomeView({ goContact }: { goContact: () => void }) {
   );
 }
 
-/* ---------- CONTACT VIEW ---------- */
+/* ---------- CONTACT VIEW (neu, mit Aufklappen oben) ---------- */
 function ContactView({ goHome }: { goHome: () => void }) {
+  // Welcher Tab ist geöffnet?
+  const [open, setOpen] = React.useState<
+    "websites" | "fotos" | "socialmedia" | "marketing" | null
+  >(null);
+
   return (
     <main className="pt-24">
       <section className="mx-auto max-w-5xl px-4">
@@ -348,35 +353,137 @@ function ContactView({ goHome }: { goHome: () => void }) {
         </div>
       </section>
 
-      {/* Auswahlfelder (Tabs) */}
-      <section className="mx-auto max-w-5xl px-4 mt-14 grid md:grid-cols-4 gap-4">
-        {[
-          { id: "websites", icon: <Globe2 className="h-5 w-5" />, label: "Website erstellen" },
-          { id: "fotos", icon: <Camera className="h-5 w-5" />, label: "Professionelle Fotos" },
-          { id: "socialmedia", icon: <Instagram className="h-5 w-5" />, label: "Social-Media-Präsenz" },
-          { id: "marketing", icon: <Users className="h-5 w-5" />, label: "Marketing & Ads" },
-        ].map((o, i) => (
-          <motion.button
-            key={i}
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: "instant" });
-              document.getElementById(o.id)?.scrollIntoView({ behavior: "smooth" });
-            }}
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.05 * i }}
-            className="w-full rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition text-left"
+      {/* Auswahlfelder (Tabs oben, togglen statt scrollen) */}
+      <section className="mx-auto max-w-5xl px-4 mt-14">
+        <div className="grid md:grid-cols-4 gap-4">
+          {[
+            { id: "websites", icon: <Globe2 className="h-5 w-5" />, label: "Website erstellen" },
+            { id: "fotos", icon: <Camera className="h-5 w-5" />, label: "Professionelle Fotos" },
+            { id: "socialmedia", icon: <Instagram className="h-5 w-5" />, label: "Social-Media-Präsenz" },
+            { id: "marketing", icon: <Users className="h-5 w-5" />, label: "Marketing & Ads" },
+          ].map((o, i) => {
+            const isOpen = open === (o.id as typeof open);
+            return (
+              <motion.button
+                key={i}
+                onClick={() =>
+                  setOpen((prev) => (prev === o.id ? null : (o.id as typeof open)))
+                }
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.05 * i }}
+                aria-expanded={isOpen}
+                className={`w-full rounded-2xl border border-white/10 bg-white/5 p-5 transition text-left hover:bg-white/10 ${
+                  isOpen ? "ring-1 ring-white/20" : ""
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2 text-white/90">
+                  <span className="inline-flex items-center gap-2">
+                    {o.icon}
+                    <span className="font-medium">{o.label}</span>
+                  </span>
+                  {/* Pfeil zeigt Auf/Zu über Rotation */}
+                  <motion.span
+                    animate={{ rotate: isOpen ? 90 : 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="shrink-0"
+                  >
+                    <ArrowRight className="h-4 w-4" />
+                  </motion.span>
+                </div>
+              </motion.button>
+            );
+          })}
+        </div>
+
+        {/* Aufklapp-Inhalt direkt unter den Kacheln */}
+        {open && (
+          <motion.div
+            key={open}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-6 text-white/80"
           >
-            <div className="flex items-center gap-2 text-white/90">
-              <span>{o.icon}</span>
-              <span className="font-medium">{o.label}</span>
-            </div>
-          </motion.button>
-        ))}
+            {open === "websites" && (
+              <div>
+                <motion.h3
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="text-2xl md:text-3xl font-semibold mb-3"
+                >
+                  🌐 Website erstellen
+                </motion.h3>
+                <p>
+                  Wir entwickeln maßgeschneiderte Websites, die perfekt zu Ihrem gastronomischen Betrieb passen – modern,
+                  mobiloptimiert und auf Umsatzsteigerung ausgelegt. Von der digitalen Speisekarte bis zur Online-Reservierung:
+                  alles auf Ihre Marke abgestimmt.
+                </p>
+              </div>
+            )}
+
+            {open === "fotos" && (
+              <div>
+                <motion.h3
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="text-2xl md:text-3xl font-semibold mb-3"
+                >
+                  📸 Professionelle Fotos
+                </motion.h3>
+                <p>
+                  Unser Fotografenteam fängt das Ambiente, die Speisen und die Menschen Ihres Betriebs authentisch ein.
+                  Für Social Media, Website oder Print – jedes Foto stärkt Ihr Markenimage und zieht neue Gäste an.
+                </p>
+              </div>
+            )}
+
+            {open === "socialmedia" && (
+              <div>
+                <motion.h3
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="text-2xl md:text-3xl font-semibold mb-3"
+                >
+                  📱 Social-Media-Präsenz
+                </motion.h3>
+                <p>
+                  Wir übernehmen den kompletten Aufbau und die Betreuung Ihrer Social-Media-Kanäle – inklusive Contentplanung,
+                  Postings und Interaktion. Ziel: Reichweite, Wiedererkennung und echte Community-Bindung.
+                </p>
+              </div>
+            )}
+
+            {open === "marketing" && (
+              <div>
+                <motion.h3
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="text-2xl md:text-3xl font-semibold mb-3"
+                >
+                  📊 Marketing & Ads
+                </motion.h3>
+                <p>
+                  Wir kombinieren gezieltes Online-Marketing mit lokaler Reichweite.
+                  Von Meta Ads und Google-Kampagnen bis zu Stadtplakaten und QR-Aktionen –
+                  Sie werden sichtbar, wo Ihre Gäste wirklich sind.
+                </p>
+              </div>
+            )}
+          </motion.div>
+        )}
       </section>
 
-      {/* Kontaktformular */}
+      {/* Kontaktformular (unverändert) */}
       <section className="mx-auto max-w-5xl px-4 mt-24 mb-24">
         <div className="grid md:grid-cols-2 gap-10">
           <div>
@@ -384,8 +491,8 @@ function ContactView({ goHome }: { goHome: () => void }) {
               Lass uns sprechen
             </h3>
             <p className="text-white/70 mt-3">
-              Kurze Nachricht reicht. Wir melden uns in unter 24 Stunden – oft schneller.  
-              Diskret, klar, verbindlich.
+              Kurze Nachricht reicht. Wir melden uns in unter 24 Stunden.
+               Diskret, klar, verbindlich.
             </p>
             <ul className="mt-6 space-y-2 text-white/70 text-sm">
               <li className="flex items-center gap-2">
@@ -446,11 +553,10 @@ function ContactView({ goHome }: { goHome: () => void }) {
           </form>
         </div>
       </section>
-
-      <ServiceDetails />
     </main>
   );
 }
+
 /* ---------- IMPRESSUM ---------- */
 function ImpressumView() {
   return (
