@@ -26,7 +26,10 @@ export default function GastaroSite() {
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
           {/* Logo */}
           <button
-            onClick={() => setView("home")}
+            onClick={() => {
+              setView("home");
+              window.scrollTo(0, 0);
+            }}
             className="group inline-flex items-center gap-2 text-lg font-medium hover:opacity-90"
           >
             <Sparkles className="h-5 w-5" />
@@ -36,25 +39,37 @@ export default function GastaroSite() {
           {/* Desktop Navigation */}
           <nav className="hidden sm:flex items-center gap-6 text-sm">
             <button
-              onClick={() => setView("home")}
+              onClick={() => {
+                setView("home");
+                window.scrollTo(0, 0);
+              }}
               className={`hover:opacity-80 ${view === "home" ? "opacity-100" : "opacity-70"}`}
             >
               About
             </button>
             <button
-              onClick={() => setView("problematik")}
+              onClick={() => {
+                setView("problematik");
+                window.scrollTo(0, 0);
+              }}
               className={`hover:opacity-80 ${view === "problematik" ? "opacity-100" : "opacity-70"}`}
             >
               Problematik
             </button>
             <button
-              onClick={() => setView("herangehensweise")}
+              onClick={() => {
+                setView("herangehensweise");
+                window.scrollTo(0, 0);
+              }}
               className={`hover:opacity-80 ${view === "herangehensweise" ? "opacity-100" : "opacity-70"}`}
             >
               Herangehensweise
             </button>
             <button
-              onClick={() => setView("contact")}
+              onClick={() => {
+                setView("contact");
+                window.scrollTo(0, 0);
+              }}
               className={`hover:opacity-80 ${view === "contact" ? "opacity-100" : "opacity-70"}`}
             >
               Kontakt
@@ -63,7 +78,10 @@ export default function GastaroSite() {
 
           {/* Desktop CTA */}
           <button
-            onClick={() => setView("contact")}
+            onClick={() => {
+              setView("contact");
+              window.scrollTo(0, 0);
+            }}
             className="hidden sm:inline-flex rounded-2xl bg-white text-black px-4 py-1.5 text-sm font-semibold hover:bg-white/90 transition"
           >
             Anfrage
@@ -75,6 +93,7 @@ export default function GastaroSite() {
           </div>
         </div>
       </header>
+
 
       {/* Page Views */}
       {view === "home" && <HomeView goContact={() => setView("contact")} />}
@@ -140,7 +159,12 @@ function MobileMenu({
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </motion.div>
       </button>
@@ -163,6 +187,7 @@ function MobileMenu({
               onClick={() => {
                 setView(item.view);
                 setOpen(false);
+                window.scrollTo(0, 0); // 👈 hier hinzugefügt!
               }}
               className={`block w-full text-left px-5 py-2 text-sm hover:bg-white/10 ${
                 view === item.view ? "text-white" : "text-white/70"
@@ -171,11 +196,14 @@ function MobileMenu({
               {item.label}
             </button>
           ))}
+
           <div className="border-t border-white/10 my-2"></div>
+
           <button
             onClick={() => {
               setView("contact");
               setOpen(false);
+              window.scrollTo(0, 0); // 👈 hier auch hinzugefügt!
             }}
             className="w-[90%] mx-auto block rounded-xl bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-white/90 transition"
           >
@@ -186,6 +214,7 @@ function MobileMenu({
     </div>
   );
 }
+
 
 
 /* ---------- HOME VIEW ---------- */
