@@ -6,5 +6,5 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
-  base: './', // 🔥 wichtig für Netlify, sonst bleibt der Bildschirm weiß
+  // Hinweis: base:'./' entfernt – Netlify generiert korrekte HTTPS-Assetpfade automatisch.
 })
