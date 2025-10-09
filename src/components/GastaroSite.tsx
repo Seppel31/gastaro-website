@@ -83,15 +83,21 @@ export default function GastaroSite() {
       </header>
 
       {/* Page Views */}
-      {view === "home" && <HomeView goContact={() => changeView("contact")} />}
-      {view === "contact" && <ContactView goHome={() => changeView("home")} />}
+      {view === "home" && (
+        <HomeView goContact={() => { changeView("contact"); }} />
+      )}
+      {view === "contact" && (
+        <ContactView goHome={() => { changeView("home"); }} />
+      )}
       {view === "problematik" && (
         <ProblematikView
-          goHome={() => changeView("home")}
-          goNext={() => changeView("herangehensweise")}
+          goHome={() => { changeView("home"); }}
+          goNext={() => { changeView("herangehensweise"); }}
         />
       )}
-      {view === "herangehensweise" && <HerangehensweiseView goContact={() => changeView("contact")} />}
+      {view === "herangehensweise" && (
+        <HerangehensweiseView goContact={() => { changeView("contact"); }} />
+      )}
       {view === "impressum" && <ImpressumView />}
       {view === "datenschutz" && <DatenschutzView />}
 
@@ -173,6 +179,7 @@ function MobileMenu({
               key={i}
               onClick={() => {
                 setView(item.view);
+                window.scrollTo({ top: 0, behavior: "instant" });
                 setOpen(false);
               }}
               className={`block w-full text-left px-5 py-2 text-sm hover:bg-white/10 ${
@@ -188,6 +195,7 @@ function MobileMenu({
           <button
             onClick={() => {
               setView("contact");
+              window.scrollTo({ top: 0, behavior: "instant" });
               setOpen(false);
             }}
             className="w-[90%] mx-auto block rounded-xl bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-white/90 transition"
@@ -199,9 +207,6 @@ function MobileMenu({
     </div>
   );
 }
-
-
-
 
 /* ---------- HOME VIEW ---------- */
 function HomeView({ goContact }: { goContact: () => void }) {
@@ -226,14 +231,16 @@ function HomeView({ goContact }: { goContact: () => void }) {
         >
           <p className="text-sm">Wir servieren Ihren Erfolg.</p>
           <button
-            onClick={goContact}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "instant" });
+              goContact();
+            }}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition"
           >
             Lass uns sprechen <ArrowRight className="h-4 w-4" />
           </button>
         </motion.div>
       </section>
-
       {/* ABOUT */}
       <section className="relative py-28">
         <div className="mx-auto max-w-4xl px-4">
@@ -330,7 +337,10 @@ function ContactView({ goHome }: { goHome: () => void }) {
             </p>
           </div>
           <button
-            onClick={goHome}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "instant" });
+              goHome();
+            }}
             className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition"
           >
             Zurück <ArrowRight className="h-4 w-4 rotate-180" />
@@ -338,7 +348,7 @@ function ContactView({ goHome }: { goHome: () => void }) {
         </div>
       </section>
 
-      {/* Auswahlfelder (jetzt klickbar & smooth scroll) */}
+      {/* Auswahlfelder (Tabs) */}
       <section className="mx-auto max-w-5xl px-4 mt-14 grid md:grid-cols-4 gap-4">
         {[
           { id: "websites", icon: <Globe2 className="h-5 w-5" />, label: "Website erstellen" },
@@ -348,9 +358,10 @@ function ContactView({ goHome }: { goHome: () => void }) {
         ].map((o, i) => (
           <motion.button
             key={i}
-            onClick={() =>
-              document.getElementById(o.id)?.scrollIntoView({ behavior: "smooth" })
-            }
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "instant" });
+              document.getElementById(o.id)?.scrollIntoView({ behavior: "smooth" });
+            }}
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -396,16 +407,15 @@ function ContactView({ goHome }: { goHome: () => void }) {
               e.preventDefault();
               const fd = new FormData(e.currentTarget as HTMLFormElement);
               const data = Object.fromEntries(fd.entries());
-
               const res = await fetch("/.netlify/functions/sendMail", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
               });
-
               if (res.ok) {
                 alert("Danke! Wir melden uns in Kürze.");
                 (e.currentTarget as HTMLFormElement).reset();
+                window.scrollTo({ top: 0, behavior: "instant" });
               } else {
                 const t = await res.text();
                 alert("Fehler beim Senden: " + t);
@@ -414,31 +424,19 @@ function ContactView({ goHome }: { goHome: () => void }) {
             className="rounded-2xl border border-white/10 bg-white/5 p-6"
           >
             <div className="grid grid-cols-1 gap-4">
-              <Field
-                name="name"
-                icon={<User className="h-4 w-4" />}
-                placeholder="Ihr Name"
-                required
-              />
-              <Field
-                name="email"
-                icon={<Mail className="h-4 w-4" />}
-                type="email"
-                placeholder="E-Mail"
-                required
-              />
-              <Field
-                name="phone"
-                icon={<Phone className="h-4 w-4" />}
-                placeholder="Telefon (optional)"
-              />
+              <Field name="name" icon={<User className="h-4 w-4" />} placeholder="Ihr Name" required />
+              <Field name="email" icon={<Mail className="h-4 w-4" />} type="email" placeholder="E-Mail" required />
+              <Field name="phone" icon={<Phone className="h-4 w-4" />} placeholder="Telefon (optional)" />
               <textarea
                 name="message"
                 placeholder="Worum geht es?"
                 required
                 className="w-full rounded-xl bg-black/40 border border-white/15 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 min-h-[120px]"
               />
-              <button className="rounded-xl bg-white text-black px-5 py-3 font-semibold hover:bg-white/90 transition">
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "instant" })}
+                className="rounded-xl bg-white text-black px-5 py-3 font-semibold hover:bg-white/90 transition"
+              >
                 Anfrage senden
               </button>
             </div>
@@ -449,12 +447,10 @@ function ContactView({ goHome }: { goHome: () => void }) {
         </div>
       </section>
 
-      {/* Neue scrollbare Service-Sektion */}
       <ServiceDetails />
     </main>
   );
 }
-
 /* ---------- IMPRESSUM ---------- */
 function ImpressumView() {
   return (
@@ -627,7 +623,10 @@ function ProblematikView({ goHome, goNext }: { goHome: () => void; goNext: () =>
           </p>
         </div>
         <button
-          onClick={goHome}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "instant" });
+            goHome();
+          }}
           className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition"
         >
           Zurück
@@ -644,7 +643,7 @@ function ProblematikView({ goHome, goNext }: { goHome: () => void; goNext: () =>
           <p>Wir unterstützen Gastronomiebetriebe dabei, ihre einzigartige Geschichte zu erzählen, ihre Reichweite zu vergrößern und nachhaltig Gäste zu gewinnen. Von Social-Media-Marketing und Content-Strategie bis hin zu Branding und Performance-Kampagnen – wir wissen, was funktioniert, weil wir die Sprache der Gastronomie sprechen.</p>
           <p>Denn Erfolg ist kein Zufall, sondern das Ergebnis einer klaren Strategie, konsequenter Umsetzung und echter Leidenschaft für das, was man tut.</p>
         </div>
-
+        	
         <div>
           <h3 className="text-2xl md:text-3xl font-semibold mb-4">1. Die Revolution der Online-Suche</h3>
           <p>Suchmaschinen, wie wir sie heute kennen, befinden sich in einem radikalen Wandel.</p>
@@ -654,7 +653,6 @@ function ProblematikView({ goHome, goNext }: { goHome: () => void; goNext: () =>
           <p>Hinzu kommt der Faktor Geo: Suchanfragen werden immer stärker standortbasiert ausgewertet. Wenn jemand nach „bestes italienisches Restaurant in der Nähe“ sucht, entscheidet nicht nur das Ranking, sondern auch die lokale Relevanz und digitale Präsenz des Betriebs, ob er in der Antwort auftaucht.</p>
           <p>Kurz gesagt: Wer heute online sichtbar sein will, muss verstehen, wie KI denkt, Inhalte gewichtet und Orte bewertet – und seine Marketingstrategie gezielt darauf ausrichten.</p>
         </div>
-
         <div>
           <h3 className="text-2xl md:text-3xl font-semibold mb-4">2. Die Überproduktion von Inhalten</h3>
           <p>Noch nie war es so einfach, Inhalte zu veröffentlichen – und noch nie war es so schwer, wahrgenommen zu werden.</p>
@@ -662,7 +660,6 @@ function ProblematikView({ goHome, goNext }: { goHome: () => void; goNext: () =>
           <p>Für Gastronomiebetriebe bedeutet das: Wer online sichtbar bleiben will, muss mehr bieten als der Standart. Schöne Bilder oder Standard-Posts. Es braucht echte Kreativität, klare Strategie und ein tiefes Verständnis dafür, wie man Emotionen weckt und Geschichten erzählt, die im Gedächtnis bleiben.</p>
           <p>Nur wer es schafft, seine Marke mit einem einzigartigen Auftritt und konsistentem Stil zu positionieren, wird aus der Masse herausstechen – und die Aufmerksamkeit der Gäste langfristig gewinnen.</p>
         </div>
-
         <div>
           <h3 className="text-2xl md:text-3xl font-semibold mb-4">3. Der USP als entscheidender Erfolgsfaktor</h3>
           <p>In einer Zeit, in der täglich unzählige Inhalte veröffentlicht werden, wird der Unique Selling Point (USP) zum zentralen Schlüssel für Sichtbarkeit und Wiedererkennung.</p>
@@ -673,7 +670,6 @@ function ProblematikView({ goHome, goNext }: { goHome: () => void; goNext: () =>
           <p>Ein klar definierter und konsequent gelebter USP sorgt dafür, dass Gäste nicht nur zufällig auf dich stoßen, sondern gezielt zu dir kommen.</p>
           <p>Er schafft Wiedererkennung, Gemeinschaft, Vertrauen und Loyalität – und macht aus Gästen echte Fans.</p>
         </div>
-
         <div>
           <h3 className="text-2xl md:text-3xl font-semibold mb-4">4. Sichtbarkeit auf allen Plattformen</h3>
           <p>Die digitale Präsenz entscheidet heute über den Erfolg einer Marke.</p>
@@ -689,7 +685,10 @@ function ProblematikView({ goHome, goNext }: { goHome: () => void; goNext: () =>
 
       <div className="mt-16 flex justify-center">
         <button
-          onClick={goNext}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "instant" });
+            goNext();
+          }}
           className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 hover:bg-white hover:text-black transition"
         >
           Weiter: Herangehensweise <ArrowRight className="h-4 w-4" />
@@ -713,7 +712,10 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
           </p>
         </div>
         <button
-          onClick={goContact}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "instant" });
+            goContact();
+          }}
           className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition"
         >
           Kontakt aufnehmen
@@ -732,15 +734,14 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
             klare Struktur, starke Inhalte, lokale Relevanz und eine Story, die bleibt.
           </p>
           <p className="mt-3">
-            Unser Ziel: Wenn jemand nach <em>„bestes Café in der Nähe“</em> oder <em>„Brunch München Schwabing“</em> sucht, 
+            Unser Ziel: Wenn jemand nach <em>„bestes Café in der Nähe“</em> oder <em>„Brunch München Schwabing“</em> sucht,
             taucht dein Betrieb in der Antwort auf – nicht in der zweiten Reihe, sondern ganz oben.
           </p>
           <p className="mt-3">
-            Wir kombinieren moderne Performance, optimierte Ladezeiten und strukturierte Inhalte (E-E-A-T, FAQ, Local Schema), 
+            Wir kombinieren moderne Performance, optimierte Ladezeiten und strukturierte Inhalte (E-E-A-T, FAQ, Local Schema),
             damit Google, KI und Menschen gleichermaßen verstehen, warum dein Betrieb relevant ist.
           </p>
         </div>
-
         {/* Punkt 2 */}
         <div id="marketing">
           <h3 className="text-2xl md:text-3xl font-semibold mb-3">
@@ -751,7 +752,7 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
             Wir platzieren deinen Betrieb dort, wo diese Entscheidungen fallen.
           </p>
           <p className="mt-3">
-            Mit gezielten Google Ads, Social Ads und einer datenbasierten Local-SEO-Strategie schaffen wir es, 
+            Mit gezielten Google Ads, Social Ads und einer datenbasierten Local-SEO-Strategie schaffen wir es,
             dass deine Marke sowohl algorithmisch als auch emotional präsent ist.  
             Von Google Maps über TikTok bis hin zu Instagram Reels – jede Plattform hat ihren eigenen Hebel, und wir bedienen alle.
           </p>
@@ -759,7 +760,6 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
             Unser Fokus: echte Besucher, echte Reichweite, messbare Ergebnisse – keine gekauften Klicks.
           </p>
         </div>
-
         {/* Punkt 3 */}
         <div id="socialmedia">
           <h3 className="text-2xl md:text-3xl font-semibold mb-3">
@@ -779,7 +779,6 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
             und über Algorithmen hinaus funktioniert.
           </p>
         </div>
-
         {/* Punkt 4 */}
         <div id="fotos">
           <h3 className="text-2xl md:text-3xl font-semibold mb-3">
@@ -797,7 +796,6 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
             Das Ziel: Bilder, die nicht nur gesehen, sondern <strong>gefühlt</strong> werden.
           </p>
         </div>
-
         {/* Punkt 5 */}
         <div>
           <h3 className="text-2xl md:text-3xl font-semibold mb-3">
@@ -812,7 +810,6 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
             Menschen entdecken dich online, erleben dich offline – und teilen es wieder online.
           </p>
         </div>
-
         {/* Punkt 6 */}
         <div>
           <h3 className="text-2xl md:text-3xl font-semibold mb-3">
@@ -829,9 +826,13 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
         </div>
       </section>
 
+
       <div className="mt-16 flex justify-center">
         <button
-          onClick={goContact}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "instant" });
+            goContact();
+          }}
           className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 hover:bg-white hover:text-black transition"
         >
           Jetzt unverbindlich anfragen <ArrowRight className="h-4 w-4" />
@@ -841,15 +842,8 @@ function HerangehensweiseView({ goContact }: { goContact: () => void }) {
   );
 }
 
-
 /* ---------- HILFSKOMPONENTEN ---------- */
-function Field({
-  name,
-  icon,
-  placeholder,
-  type = "text",
-  required = false,
-}: {
+function Field({ name, icon, placeholder, type = "text", required = false }: {
   name: string;
   icon: React.ReactNode;
   placeholder: string;
