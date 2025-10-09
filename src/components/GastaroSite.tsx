@@ -19,6 +19,12 @@ export default function GastaroSite() {
     "home" | "contact" | "impressum" | "datenschutz" | "problematik" | "herangehensweise"
   >("home");
 
+  // Einheitliche Navigation mit Scroll-to-Top
+  const changeView = (v: typeof view) => {
+    setView(v);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  };
+
   return (
     <div className="min-h-screen w-full bg-black text-white font-[ui-sans-serif] selection:bg-white/90 selection:text-black">
       {/* Top Navigation */}
@@ -26,10 +32,7 @@ export default function GastaroSite() {
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
           {/* Logo */}
           <button
-            onClick={() => {
-              setView("home");
-              window.scrollTo(0, 0);
-            }}
+            onClick={() => changeView("home")}
             className="group inline-flex items-center gap-2 text-lg font-medium hover:opacity-90"
           >
             <Sparkles className="h-5 w-5" />
@@ -39,37 +42,25 @@ export default function GastaroSite() {
           {/* Desktop Navigation */}
           <nav className="hidden sm:flex items-center gap-6 text-sm">
             <button
-              onClick={() => {
-                setView("home");
-                window.scrollTo(0, 0);
-              }}
+              onClick={() => changeView("home")}
               className={`hover:opacity-80 ${view === "home" ? "opacity-100" : "opacity-70"}`}
             >
               About
             </button>
             <button
-              onClick={() => {
-                setView("problematik");
-                window.scrollTo(0, 0);
-              }}
+              onClick={() => changeView("problematik")}
               className={`hover:opacity-80 ${view === "problematik" ? "opacity-100" : "opacity-70"}`}
             >
               Problematik
             </button>
             <button
-              onClick={() => {
-                setView("herangehensweise");
-                window.scrollTo(0, 0);
-              }}
+              onClick={() => changeView("herangehensweise")}
               className={`hover:opacity-80 ${view === "herangehensweise" ? "opacity-100" : "opacity-70"}`}
             >
               Herangehensweise
             </button>
             <button
-              onClick={() => {
-                setView("contact");
-                window.scrollTo(0, 0);
-              }}
+              onClick={() => changeView("contact")}
               className={`hover:opacity-80 ${view === "contact" ? "opacity-100" : "opacity-70"}`}
             >
               Kontakt
@@ -78,10 +69,7 @@ export default function GastaroSite() {
 
           {/* Desktop CTA */}
           <button
-            onClick={() => {
-              setView("contact");
-              window.scrollTo(0, 0);
-            }}
+            onClick={() => changeView("contact")}
             className="hidden sm:inline-flex rounded-2xl bg-white text-black px-4 py-1.5 text-sm font-semibold hover:bg-white/90 transition"
           >
             Anfrage
@@ -89,22 +77,21 @@ export default function GastaroSite() {
 
           {/* Mobile Menu Button */}
           <div className="sm:hidden">
-            <MobileMenu setView={setView} view={view} />
+            <MobileMenu setView={changeView} view={view} />
           </div>
         </div>
       </header>
 
-
       {/* Page Views */}
-      {view === "home" && <HomeView goContact={() => setView("contact")} />}
-      {view === "contact" && <ContactView goHome={() => setView("home")} />}
+      {view === "home" && <HomeView goContact={() => changeView("contact")} />}
+      {view === "contact" && <ContactView goHome={() => changeView("home")} />}
       {view === "problematik" && (
         <ProblematikView
-          goHome={() => setView("home")}
-          goNext={() => setView("herangehensweise")}
+          goHome={() => changeView("home")}
+          goNext={() => changeView("herangehensweise")}
         />
       )}
-      {view === "herangehensweise" && <HerangehensweiseView goContact={() => setView("contact")} />}
+      {view === "herangehensweise" && <HerangehensweiseView goContact={() => changeView("contact")} />}
       {view === "impressum" && <ImpressumView />}
       {view === "datenschutz" && <DatenschutzView />}
 
@@ -115,13 +102,13 @@ export default function GastaroSite() {
           <div className="flex items-center gap-4">
             <button
               className="hover:text-white"
-              onClick={() => setView("impressum")}
+              onClick={() => changeView("impressum")}
             >
               Impressum
             </button>
             <button
               className="hover:text-white"
-              onClick={() => setView("datenschutz")}
+              onClick={() => changeView("datenschutz")}
             >
               Datenschutz
             </button>
@@ -187,7 +174,6 @@ function MobileMenu({
               onClick={() => {
                 setView(item.view);
                 setOpen(false);
-                window.scrollTo(0, 0); // 👈 hier hinzugefügt!
               }}
               className={`block w-full text-left px-5 py-2 text-sm hover:bg-white/10 ${
                 view === item.view ? "text-white" : "text-white/70"
@@ -203,7 +189,6 @@ function MobileMenu({
             onClick={() => {
               setView("contact");
               setOpen(false);
-              window.scrollTo(0, 0); // 👈 hier auch hinzugefügt!
             }}
             className="w-[90%] mx-auto block rounded-xl bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-white/90 transition"
           >
@@ -214,6 +199,7 @@ function MobileMenu({
     </div>
   );
 }
+
 
 
 
